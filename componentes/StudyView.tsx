@@ -27,7 +27,7 @@ const StudyView: React.FC = () => {
 
         const lowercasedQuery = searchTerm.toLowerCase();
 
-        return activeNotebook.scenarios.filter(scenario => {
+        return (activeNotebook.scenarios || []).filter(scenario => {
             const searchableFields = [
                 scenario.spotType,
                 scenario.rangeAction,
@@ -46,7 +46,7 @@ const StudyView: React.FC = () => {
         });
     }, [searchTerm, activeNotebook]);
     
-    const filteredScenarios = activeNotebook?.scenarios.filter(s => s.spotType === activeSpot) || [];
+    const filteredScenarios = activeNotebook?.scenarios?.filter(s => s.spotType === activeSpot) || [];
 
     const handleAddScenario = () => {
         if (!activeNotebook || !activeSpot) return;
@@ -66,7 +66,7 @@ const StudyView: React.FC = () => {
         };
         setNotebooks(notebooks.map(n => 
             n.id === activeNotebookId 
-            ? { ...n, scenarios: [...n.scenarios, newScenario] } 
+            ? { ...n, scenarios: [...(n.scenarios || []), newScenario] } 
             : n
         ));
     };
@@ -75,7 +75,7 @@ const StudyView: React.FC = () => {
         if (!activeNotebook) return;
         setNotebooks(notebooks.map(n => 
             n.id === activeNotebookId
-            ? { ...n, scenarios: n.scenarios.map(s => s.id === updatedScenario.id ? updatedScenario : s) }
+            ? { ...n, scenarios: (n.scenarios || []).map(s => s.id === updatedScenario.id ? updatedScenario : s) }
             : n
         ));
     };
@@ -84,7 +84,7 @@ const StudyView: React.FC = () => {
         if (!activeNotebook) return;
         setNotebooks(notebooks.map(n => 
             n.id === activeNotebookId
-            ? { ...n, scenarios: n.scenarios.filter(s => s.id !== scenarioId) }
+            ? { ...n, scenarios: (n.scenarios || []).filter(s => s.id !== scenarioId) }
             : n
         ));
     };
@@ -126,7 +126,7 @@ const StudyView: React.FC = () => {
         setActiveSpot(scenario.spotType);
     };
 
-    const scenariosForComparisonView = activeNotebook?.scenarios.filter(s => scenariosToCompare.has(s.id)) || [];
+    const scenariosForComparisonView = activeNotebook?.scenarios?.filter(s => scenariosToCompare.has(s.id)) || [];
 
     if (!activeNotebook) {
         return (
