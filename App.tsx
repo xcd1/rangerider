@@ -27,7 +27,7 @@ const App: React.FC = () => {
     setActiveNotebookId,
     searchTerm,
     setSearchTerm,
-  }), [notebooks, setNotebooks, activeNotebookId, setActiveNotebookId, searchTerm]);
+  }), [notebooks, setNotebooks, activeNotebookId, setActiveNotebookId, searchTerm, setSearchTerm]);
 
   return (
     <AppContext.Provider value={contextValue}>
